@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import precipitation from './precipitation.json';
+import temperature from './temperature.json';
 import { FilereadService } from '../app/fileread.service'
 
 @Component({
@@ -9,24 +11,41 @@ import { FilereadService } from '../app/fileread.service'
 export class AppComponent {
   title = 'test';
   data: any;
+
+  prec: any = precipitation;
+
+  temp: any = temperature;
+  options
 constructor (
   private fileServ : FilereadService,
 ){
   this.fileServ.getPeriod('d','f','f').subscribe(res=>{
     console.log(res)
   });
+  let date = this.temp.map(el=>el.t)
+  let datas = this.temp.map(el=>el.v)
   this.data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels:date,
     datasets: [
         {
             label: 'First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-            label: 'Second Dataset',
-            data: [28, 48, 40, 19, 86, 27, 90]
+            data: datas
         }
     ]
+}
+this.options = {
+  animation: {
+    duration: 0
+  },
+  hover: {
+    animationDuration: 0 
+  },
+  responsiveAnimationDuration: 0, 
+  elements: {
+    line: {
+      tension: 0 
+    }
+  }
 }
 }
   buttons = ['precipitation','temperature']
@@ -37,3 +56,4 @@ constructor (
   }
  
 }
+
