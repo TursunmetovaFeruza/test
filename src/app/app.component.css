@@ -1,0 +1,13 @@
+button {
+    background-color: rgb(26, 197, 240);
+    width: auto;
+    border: rgb(26, 197, 240);
+    height: 30px;
+    margin: 10px 20px 10px 20px;
+}
+
+select {
+    width: auto;
+    height: 30px;
+    margin: 0px 20px 0px 20px;
+}

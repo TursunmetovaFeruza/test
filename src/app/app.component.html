@@ -1,13 +1,23 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <div>
   <div>
+    <h2>Архив метеослужбы</h2>
+  </div>
+  <div style="display: flex;">
+    <div style="width:10%;">
     <ng-container *ngFor="let item of buttons">
+        <button  (click)="getValue(item)"> {{item}}</button>
+      </ng-container>
+    </div>
+    <div style="width:70%;">
+      <select   #s (change)="start(s.value)">
+        <option *ngFor="let o of years" value="{{o}}"> {{o}} </option>
+      </select>
+      <select   #f (change)="finish(f.value)">
+        <option *ngFor="let o of years.reverse()" value="{{o}}"> {{o}} </option>
+      </select>
       <div>
-        <button class="form-control" (click)="getValue(item)"> {{item}}</button>
+        <p-chart type="line" [data]="data" [options]="options"></p-chart>
       </div>
-
-    </ng-container>
-    <p-chart type="line" [data]="data" [options]="options"></p-chart>
-
+    </div>
   </div>
 </div>

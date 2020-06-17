@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import precipitation from './precipitation.json';
 import temperature from './temperature.json';
 import { FilereadService } from '../app/fileread.service'
@@ -8,52 +8,65 @@ import { FilereadService } from '../app/fileread.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'test';
-  data: any;
+export class AppComponent implements OnInit {
+  public data: any;
+  public buttons = ['precipitation', 'temperature'];
+  public options;
+  public startTime = 1881; finishTime = 2006;
+  public selected;
+  public years;
 
-  prec: any = precipitation;
+  constructor(
+    private fileServ: FilereadService,
+  ) { }
 
-  temp: any = temperature;
-  options
-constructor (
-  private fileServ : FilereadService,
-){
-  this.fileServ.getPeriod('d','f','f').subscribe(res=>{
-    console.log(res)
-  });
-  let date = this.temp.map(el=>el.t)
-  let datas = this.temp.map(el=>el.v)
-  this.data = {
-    labels:date,
-    datasets: [
-        {
-            label: 'First Dataset',
-            data: datas
+  ngOnInit() {
+    this.years = Array(126).fill((2007 - 126)).map((x, i) => x + i);
+    this.selected = this.buttons[0];
+    this.getValue(this.selected);
+    this.options = {
+      legend: {
+        display: false
+      },
+      animation: {
+        duration: 0
+      },
+      hover: {
+        animationDuration: 0
+      },
+      responsiveAnimationDuration: 0,
+      elements: {
+        line: {
+          tension: 0
         }
-    ]
-}
-this.options = {
-  animation: {
-    duration: 0
-  },
-  hover: {
-    animationDuration: 0 
-  },
-  responsiveAnimationDuration: 0, 
-  elements: {
-    line: {
-      tension: 0 
+      }
     }
   }
-}
-}
-  buttons = ['precipitation','temperature']
-  getValue(item){
-    console.log(item)
-    
+
+  start(year) {
+    this.startTime = parseInt(year);
+    this.getValue(this.selected);
+  }
+
+  finish(year) {
+    this.finishTime = parseInt(year);
+    this.getValue(this.selected);
+  }
+
+  getValue(item) {
+    this.selected = item;
+    this.data = [];
+    let data = this.fileServ.getPeriod(item, this.startTime, this.finishTime);
+    this.data = {
+      labels: data.map(el => el.t),
+      datasets: [
+        {
+          data: data.map(el => el.v)
+        }
+      ]
+    }
 
   }
- 
+
 }
 
