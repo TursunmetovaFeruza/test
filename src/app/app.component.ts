@@ -44,13 +44,29 @@ export class AppComponent implements OnInit {
   }
 
   start(year) {
+    let ch = this.startTime;
     this.startTime = parseInt(year);
+    let isValid = this.checkYear();
+    isValid? this.startTime = parseInt(year) : this.startTime = ch;
     this.getValue(this.selected);
   }
 
   finish(year) {
+    let ch = this.finishTime;
     this.finishTime = parseInt(year);
+    let isValid = this.checkYear();
+    isValid? this.finishTime = parseInt(year) : this.finishTime = ch;
     this.getValue(this.selected);
+  }
+
+  checkYear() {
+    if (this.startTime > this.finishTime) {
+      alert('Неверное значение');
+      return false;
+    } else {
+      return true;
+    }
+    
   }
 
   getValue(item) {
