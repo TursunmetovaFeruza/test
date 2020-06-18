@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
     let ch = this.startTime;
     this.startTime = parseInt(year);
     let isValid = this.checkYear();
-    isValid? this.startTime = parseInt(year) : this.startTime = ch;
+    isValid? this.startTime = parseInt(year) : ch;
     this.getValue(this.selected);
   }
 
@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
     let ch = this.finishTime;
     this.finishTime = parseInt(year);
     let isValid = this.checkYear();
-    isValid? this.finishTime = parseInt(year) : this.finishTime = ch;
+    isValid? this.finishTime = parseInt(year) :ch;
     this.getValue(this.selected);
   }
 
